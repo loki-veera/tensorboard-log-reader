@@ -15,7 +15,7 @@ $ python src/tboardreader.py --path=<path_to_log_files>
 ```
 To know more about hyperparameters please use
 ``` bash
-$ python src/tbaordreader.py --h
+$ python src/tboardreader.py --h
 ```
 ## TODO
 - [x] Scalar save
