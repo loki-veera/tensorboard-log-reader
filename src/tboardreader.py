@@ -72,6 +72,12 @@ class tensorboardReader():
         step = list(map(lambda x: x.step, event_list))
         return [step, vals]
 
+    def save_csv(self, data, filename, verbose):
+        csv_name = 'tensor_board_logdata_'+filename.split('/')[-1]+'.csv'
+        if verbose:
+            print('Saving the file as {}'.format(csv_name))
+        data.to_csv(csv_name, index=False)
+
     def run(self, args):
         """
         This method extracts values from all log files in path and saves
@@ -102,10 +108,7 @@ class tensorboardReader():
             logdata_df.columns = tags
             # Save as CSV
             if args.save:
-                csv_name = 'tensor_board_logdata_'+each_file.split('/')[-1]+'.csv'
-                if args.verbose:
-                    print('Saving the file as {}'.format(csv_name))
-                logdata_df.to_csv(csv_name, index=False)
+                self.save_csv(logdata_df, each_file, args.verbose)
 
 
 def parse_cmd():
