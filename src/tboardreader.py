@@ -8,19 +8,18 @@ import pandas as pd
 from tensorboard.backend.event_processing.event_accumulator import EventAccumulator
 
 
-class tensorboardReader():       
+class tensorboardReader():
     def convert_log2df(self, events, tag_req):
         """This method reads the tensorboard event file and extracts required
             tag
         Args:
             events (str): Path for tensorboard event file
-            tag_req (str): Required tag to extract from event file(default:'all')
-
+            tag_req (str): Required tag to extract from event file
+                            (default:'all')
         Returns:
             [list]: List of extracted tag values
             [list]: List of tags
         """
-        
         size_guidance = {
             'COMPRESSED_HISTOGRAMS': 0,
             'IMAGES': 0,
@@ -59,11 +58,9 @@ class tensorboardReader():
     def extract_tag(self, event_acc, tag):
         """
         Extract the specified tags value and step
-        
         Args:
             event_acc: Event accumulator object haolding log file values
             tag (str): Tag to extract the value
-        
         Returns:
             [list] : List of all the values in the tag
         """
@@ -81,10 +78,8 @@ class tensorboardReader():
     def run(self, args):
         """
         This method extracts values from all log files in path and saves
-        
         Args:
             args: Parser object
-
         Returns:
             None
         """
@@ -114,7 +109,6 @@ class tensorboardReader():
 def parse_cmd():
     """
     Method to create argument parser
-    
     Args:
         None
     """
