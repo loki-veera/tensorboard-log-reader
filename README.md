@@ -1,23 +1,34 @@
-# Tensorboard-log_reader
-Python implementation to read the tensorboard log files
+# Visualisation
 
-## Code Usage
-### Requirements
-- Pandas-1.1.3 
-- Python-3.7.10
-- Tensorboard-2.5.0
+Code to extract the required tags in the tensorboard log file. 
+The extracted tags are saved in a csv file.
 
-To use, run the following commands
-``` bash
-$ git clone https://github.com/lokeshveeramacheneni/tensorboard-log_reader.git
-$ cd tensorboard-log_reader/
-$ python src/tboardreader.py --path=<path_to_log_files>
+## How to run:
+
 ```
-To know more about hyperparameters please use
-``` bash
-$ python src/tbaordreader.py --h
+python test_tboardreader.py --path=<Path_to_log_file> --tag=<'all'/specific tag>
 ```
-## TODO
-- [x] Scalar save
-- [ ] Plot
-- [ ] Images
+If tag is set 'all'. All the tags are acquired.
+
+## Example:
+
+Run the examples/logfile_generator.py for generating example tensorboard event file. 
+```
+cd examples
+python logfile_generator.py
+```
+We provide a test event file in examples/runs/ folder.
+To read the tag 'linear_1' in a generated event file run
+```
+python test_tboardreader.py --path='./examples/runs/Nov05_11-40-55_lokesh-X510UNR/' --tag='linear_1'
+```
+If all the tags must be read then run
+```
+python test_tboardreader.py --path='./examples/runs/Nov05_11-40-55_lokesh-X510UNR/' --tag='all'
+```
+For a preview, a generated csv file with all extracted tags is also included.
+## Help:
+To know more about parser arguments run
+```
+python test_tboardreader.py -h
+```

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import argparse
 import os
 import warnings
 
@@ -29,6 +28,7 @@ class tensorboardReader():
         }
         logs = []
         tags = ['step']
+        tag_found = False
         # event accumulator to read the file
         try:
             event_acc = EventAccumulator(events, size_guidance)
@@ -39,6 +39,7 @@ class tensorboardReader():
                 if each_tag == tag_req:
                     logs = self.extract_tag(event_acc, each_tag)
                     tags.append(each_tag)
+                    tag_found = True
                     break
                 elif tag_req.lower() == 'all':
                     values = self.extract_tag(event_acc, each_tag)
@@ -51,8 +52,7 @@ class tensorboardReader():
         except Exception:
             print('Invalid event file')
         if len(logs) == 0:
-            warnings.warn('Invalid tag continuing with next file')
-        print(tags)
+            raise ValueError('Invalid tag')
         return logs, tags
 
     def extract_tag(self, event_acc, tag):
@@ -102,50 +102,6 @@ class tensorboardReader():
             logdata_df = pd.DataFrame(values).T
             logdata_df.columns = tags
             # Save as CSV
+            each_file = each_file+'__'+args.tag
             if args.save:
                 self.save_csv(logdata_df, each_file, args.verbose)
-
-
-def parse_cmd():
-    """
-    Method to create argument parser
-    Args:
-        None
-    """
-    parser = argparse.ArgumentParser(description='Tensorboard log reader')
-    parser.add_argument(
-        '--path',
-        default=None,
-        required=True,
-        help='Path of the tensorboard log file'
-    )
-    parser.add_argument(
-        '--tag',
-        default='all',
-        help='Required tag in log file, Default to read all tags'
-    )
-    parser.add_argument(
-        '--save',
-        action='store_true',
-        default=True,
-        help='For saving the values as a csv file'
-    )
-    parser.add_argument(
-        '--plot',
-        action='store_true',
-        default=False,
-        help='Plot the read tag values against step'
-    )
-    parser.add_argument(
-        '--verbose',
-        action='store_true',
-        default=True,
-        help='Print the steps'
-    )
-    return parser.parse_args()
-
-
-if __name__ == "__main__":
-    args = parse_cmd()
-    reader = tensorboardReader()
-    reader.run(args)
