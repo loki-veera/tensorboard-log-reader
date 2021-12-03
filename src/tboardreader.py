@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import os
-import warnings
 
 import pandas as pd
 
@@ -28,7 +27,6 @@ class tensorboardReader():
         }
         logs = []
         tags = ['step']
-        tag_found = False
         # event accumulator to read the file
         try:
             event_acc = EventAccumulator(events, size_guidance)
@@ -39,7 +37,6 @@ class tensorboardReader():
                 if each_tag == tag_req:
                     logs = self.extract_tag(event_acc, each_tag)
                     tags.append(each_tag)
-                    tag_found = True
                     break
                 elif tag_req.lower() == 'all':
                     values = self.extract_tag(event_acc, each_tag)
@@ -77,7 +74,8 @@ class tensorboardReader():
 
     def run(self, args):
         """
-        This method extracts values from all log files in path and saves
+        This method extracts values from all log files in path
+        and saves
         Args:
             args: Parser object
         Returns:
