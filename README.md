@@ -32,3 +32,7 @@ To know more about parser arguments run
 ```
 python test_tboardreader.py -h
 ```
+## TODO
+- [x] Scalar save
+- [ ] Plot
+- [ ] Images
